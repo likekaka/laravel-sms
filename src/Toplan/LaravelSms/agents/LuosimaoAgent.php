@@ -17,14 +17,22 @@ class LuosimaoAgent extends Agent
             preg_match('/【([0-9a-zA-Z\W]+)】/', $content, $matches);
             $content = str_replace($matches[0], '', $content) . $matches[0];
         }
+       
+        if (strpos($to, ",") === false) {
+            $url = 'https://sms-api.luosimao.com/v1/send.json';
+            $optData = [
+                'mobile'  => $to,
+                'message' => $content,
+            ];
+        } else {
+            $url = 'https://sms-api.luosimao.com/v1/send_batch.json';
+            $optData = [
+                'mobile_list'  => $to,
+                'message' => $content,
+            ];               
+        }
 
-        $url = 'https://sms-api.luosimao.com/v1/send.json';
         $apikey = $this->apikey;
-        $optData = [
-            'mobile' => $to,
-            'message' => $content
-        ];
-
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "$url");
 
