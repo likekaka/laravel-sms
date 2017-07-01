@@ -31,6 +31,9 @@ class SmsManagerServiceProvider extends ServiceProvider
 
         //validations file
         require __DIR__ . '/validations.php';
+        
+        // initialize the PhpSms
+        $this->initPhpSms();
     }
 
     /**
@@ -42,9 +45,6 @@ class SmsManagerServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             __DIR__ . '/../../config/laravel-sms.php', 'laravel-sms'
         );
-
-        // initialize the PhpSms
-        $this->initPhpSms();
 
         // store to container
         $this->app->singleton('SmsManager', function ($app) {
