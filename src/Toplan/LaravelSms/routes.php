@@ -1,7 +1,12 @@
 <?php
 
-Route::get('sms/info', 'Toplan\Sms\SmsController@getInfo');
+$attributes = array_merge([
+    'prefix' => 'sms',
+], config('laravel-sms.routeAttributes', []));
 
-Route::post('sms/verify-code/rule/{rule}/mobile/{mobile?}', 'Toplan\Sms\SmsController@postSendCode');
+Route::group($attributes, function () {
+    Route::get('info', 'Toplan\Sms\SmsController@getInfo');
+    Route::post('verify-code/rule/{rule}/mobile/{mobile?}', 'Toplan\Sms\SmsController@postSendCode');
+    Route::post('voice-verify/rule/{rule}/mobile/{mobile?}', 'Toplan\Sms\SmsController@postVoiceVerify');
+});
 
-Route::post('sms/voice-verify/rule/{rule}/mobile/{mobile?}', 'Toplan\Sms\SmsController@postVoiceVerify');
